@@ -12,9 +12,57 @@ namespace NZwalks.Repository
             this._nZwalksDbContext = nZwalksDbContext;
         }
 
+        public async Task<bool> AddRegion(Region region)
+        {
+            if(region != null) {
+                await this._nZwalksDbContext.Regions.AddAsync(region);
+                await this._nZwalksDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeleteRegion(Guid id)
+        {
+            var region = await _nZwalksDbContext.Regions.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if(region != null)
+            {
+                _nZwalksDbContext.Regions.Remove(region);
+                await _nZwalksDbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
         public async Task<IEnumerable<Region>> GetAllAsync()
         {
             return await this._nZwalksDbContext.Regions.ToListAsync();
+        }
+
+        public async Task<Region> GetRegionById(Guid id)
+        {
+            return await _nZwalksDbContext.Regions.Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateRegionAsync(Guid id, Region region)
+        {
+            var existingRegion = await _nZwalksDbContext.Regions.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (existingRegion != null)
+            {
+                existingRegion.Code = region.Code;
+                existingRegion.Name = region.Name;
+                existingRegion.Lat = region.Lat;
+                existingRegion.Long = region.Long;
+                existingRegion.Area = region.Area;
+                existingRegion.Population = region.Population;
+
+                _nZwalksDbContext.Update(existingRegion);
+                await _nZwalksDbContext.SaveChangesAsync();
+
+                return true;
+            }
+            return false;
         }
     }
 }
