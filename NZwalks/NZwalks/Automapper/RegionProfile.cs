@@ -6,7 +6,7 @@ namespace NZwalks.Automapper
     {
         public RegionProfile()
         {
-            CreateMap<Models.Domain.Region, Models.DTOs.Region>()
+            CreateMap<Models.Domain.Region, Models.DTOs.RegionDTO>()
                      .ReverseMap();
         }
     }

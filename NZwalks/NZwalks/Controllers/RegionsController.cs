@@ -43,7 +43,7 @@ namespace NZwalks.Controllers
             //}
 
             // using automapper
-            var regionsList = _mapper.Map<List<Models.DTOs.Region>>(regions);
+            var regionsList = _mapper.Map<List<Models.DTOs.RegionDTO>>(regions);
 
             return Ok(regionsList);
 
@@ -58,7 +58,7 @@ namespace NZwalks.Controllers
             {
                 return NotFound();
             }
-            var regionDTO = _mapper.Map<Models.DTOs.Region>(region);
+            var regionDTO = _mapper.Map<Models.DTOs.RegionDTO>(region);
 
             return Ok(regionDTO);
         }

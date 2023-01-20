@@ -58,7 +58,7 @@ namespace NZwalks.Repository
                 existingRegion.Area = region.Area;
                 existingRegion.Population = region.Population;
 
-                _nZwalksDbContext.Update(existingRegion);
+                _nZwalksDbContext.Regions.Update(existingRegion);
                 await _nZwalksDbContext.SaveChangesAsync();
 
                 return true;
