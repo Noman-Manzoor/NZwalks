@@ -42,7 +42,8 @@ namespace NZwalks.Repository
 
         public async Task<Region> GetRegionById(Guid id)
         {
-            return await _nZwalksDbContext.Regions.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var response = await _nZwalksDbContext.Regions.Where(x => x.Id == id).FirstOrDefaultAsync(); 
+            return response;
         }
 
         public async Task<bool> UpdateRegionAsync(Guid id, Region region)
