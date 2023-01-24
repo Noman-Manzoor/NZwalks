@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NZwalks.Models.Domain;
@@ -26,6 +28,7 @@ namespace NZwalks.Controllers
 
         [HttpGet]
         [Route("GetAllWalks")]
+        [Authorize]
         public async Task<IActionResult> GetAllWalks()
         {
             // fetch data using domian models 
@@ -41,6 +44,7 @@ namespace NZwalks.Controllers
 
         [HttpGet]
         [Route("GetWalkById{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> GetWalkById(Guid id)
         {
             //fetch data using domain model
@@ -55,6 +59,7 @@ namespace NZwalks.Controllers
 
         [HttpPost]
         [Route("AddWalk")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddWalk([FromBody] WalkRequestModel _walkRequestModel)
         {
             // validating incoming request 
@@ -80,6 +85,7 @@ namespace NZwalks.Controllers
 
         [HttpPut]
         [Route("UpdateWalk")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateWalk([FromRoute] Guid id,[FromBody] WalkUpdateRequestModel _walkUpdateRequestModel)
         {
             // validating incomin request
@@ -103,6 +109,7 @@ namespace NZwalks.Controllers
 
         [HttpDelete]
         [Route("DeleteWalk")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteWalk(Guid id)
         {
             return Ok(await _walkRepository.DeleteWalk(id));
