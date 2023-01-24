@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZwalks.Data;
 using NZwalks.Models.Domain;
@@ -10,6 +11,7 @@ namespace NZwalks.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+
     public class RegionsController : Controller
     {
         private readonly IMapper _mapper;
@@ -22,6 +24,7 @@ namespace NZwalks.Controllers
 
         [HttpGet]
         [Route("GetAllRegions")]
+        [Authorize]
         public async Task<IActionResult> GetAllRegions()
         {
             var regions = await _regionRepository.GetAllAsync();
@@ -52,6 +55,7 @@ namespace NZwalks.Controllers
 
         [HttpGet]
         [Route("getRegion{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> GetRegionById(Guid id)
         {
             var region = await _regionRepository.GetRegionById(id);
@@ -66,6 +70,7 @@ namespace NZwalks.Controllers
 
         [HttpPost]
         [Route("AddRegion")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddRegion(RegionRequestModel regionRequestModel)
         {
             //validating the model
@@ -97,6 +102,7 @@ namespace NZwalks.Controllers
 
         [HttpDelete]
         [Route("DeleteRegion{id:guid}")]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteRegion(Guid id)
         {
             return Ok(await _regionRepository.DeleteRegion(id));
@@ -104,6 +110,7 @@ namespace NZwalks.Controllers
 
         [HttpPut]
         [Route("UpdateRegion")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateRegion(Guid id, UpdateRegionRequest updateRegionRequest)
         {
             if(!ValidateUpdateRegion(updateRegionRequest))

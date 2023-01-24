@@ -49,14 +49,10 @@ namespace NZwalks.Repository
         {
             var response = new Walk();
             response = null;
-            if (id != null)
-            {
-                response = await _nZwalksDbContext.Walks
+            response = await _nZwalksDbContext.Walks
                            .Include(x => x.Region)
                            .Include(x => x.WalkDifficulty)
                            .FirstOrDefaultAsync(x => x.Id == id);
-                return response;
-            }
 
             return response;
         }
